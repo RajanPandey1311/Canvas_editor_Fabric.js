@@ -56,7 +56,7 @@ const SearchPage = () => {
         <h1 className='text-xl font-semibold'>Name:- Rajan Pandey</h1>
         <h2 className='text-xl font-semibold'>Email:- rajanpandeygiit31078379@gmail.com</h2>
       </div>
-      <div className="flex flex-col items-center mt-7">
+      <div className="flex flex-col items-center mt-4">
         <h1 className="text-4xl font-bold mb-4">Search Any Image for Editing in Canvas</h1>
         <div className="flex space-x-2 mb-4">
           <input

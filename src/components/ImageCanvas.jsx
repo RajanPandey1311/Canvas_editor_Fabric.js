@@ -4,18 +4,17 @@ import { useLocation } from 'react-router-dom';
 
 const ImageCanvas = () => {
   const canvasRef = useRef(null);
-  const fabricCanvasRef = useRef(null);
   const location = useLocation();
   const { image: imageUrl } = location.state || {}; 
   const [canvas, setCanvas] = useState(null);
 
   useEffect(() => {
     if (!imageUrl) return;
-    
+
     const image = new Image();
     image.crossOrigin = "Anonymous";
     image.src = imageUrl;
-    
+
     image.onload = () => {
       if (canvasRef.current) {
         const fabricCanvas = new fabric.Canvas(canvasRef.current, {
@@ -23,22 +22,21 @@ const ImageCanvas = () => {
           height: 500,
           backgroundImage: new fabric.FabricImage(image)
         });
-        fabricCanvasRef.current = fabricCanvas;
         setCanvas(fabricCanvas);
         fabricCanvas.renderAll();
       }
     };
 
     return () => {
-      if (fabricCanvasRef.current) {
-        fabricCanvasRef.current.dispose();
+      if (canvas) {
+        canvas.dispose();
       }
     };
-  }, [imageUrl]);
+  }, [imageUrl, canvas]);
 
   const addText = () => {
     const text = new fabric.Textbox('Enter text here', {
-      left: 50,
+      left: 450,
       top: 50,
       width: 200,
       fontSize: 20,
@@ -59,7 +57,7 @@ const ImageCanvas = () => {
         shape = new fabric.Triangle({ width: 100, height: 100, fill: 'blue', left: 200, top: 200 });
         break;
       default:
-        break;
+        return;
     }
     canvas.add(shape);
   };
