@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as fabric from 'fabric';
 import { useLocation } from 'react-router-dom';
 
@@ -6,25 +6,35 @@ const ImageCanvas = () => {
   const canvasRef = useRef(null);
   const fabricCanvasRef = useRef(null);
   const location = useLocation();
-  const { image } = location.state || {}; 
-  // console.log(image)
+  const { image: imageUrl } = location.state || {}; 
+  const [canvas, setCanvas] = useState(null);
 
   useEffect(() => {
-    if (!image) return; 
-    const canvas = new fabric.Canvas(canvasRef.current, {
-      width: 700,
-      height: 500,
-    });
-    fabricCanvasRef.current = canvas;
-    fabric.FabricImage.fromURL(`${image}`, (img) => {
-      canvas.backgroundImage =  img
-      canvas.renderAll()
-    });
+    if (!imageUrl) return;
+    
+    const image = new Image();
+    image.crossOrigin = "Anonymous";
+    image.src = imageUrl;
+    
+    image.onload = () => {
+      if (canvasRef.current) {
+        const fabricCanvas = new fabric.Canvas(canvasRef.current, {
+          width: 700,
+          height: 500,
+          backgroundImage: new fabric.FabricImage(image)
+        });
+        fabricCanvasRef.current = fabricCanvas;
+        setCanvas(fabricCanvas);
+        fabricCanvas.renderAll();
+      }
+    };
 
     return () => {
-      canvas.dispose();
+      if (fabricCanvasRef.current) {
+        fabricCanvasRef.current.dispose();
+      }
     };
-  }, [image]);
+  }, [imageUrl]);
 
   const addText = () => {
     const text = new fabric.Textbox('Enter text here', {
@@ -33,7 +43,7 @@ const ImageCanvas = () => {
       width: 200,
       fontSize: 20,
     });
-    fabricCanvasRef.current.add(text);
+    canvas.add(text);
   };
 
   const addShape = (shapeType) => {
@@ -51,11 +61,11 @@ const ImageCanvas = () => {
       default:
         break;
     }
-    fabricCanvasRef.current.add(shape);
+    canvas.add(shape);
   };
 
   const downloadImage = () => {
-    const dataURL = fabricCanvasRef.current.toDataURL({
+    const dataURL = canvas.toDataURL({
       format: 'png',
       quality: 1,
     });
