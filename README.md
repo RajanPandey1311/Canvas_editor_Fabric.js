@@ -1,8 +1,12 @@
-# React + Vite
+Cloning and updation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# git clone https://github.com/RajanPandey1311/Canvas_editor_Fabric.js
 
-Currently, two official plugins are available:
+# Install dependencies
+npm install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# create an env file 
+replace VITE_UNSPLASH_API_KEY with your api key.
+
+Run the project
+# npm run dev
