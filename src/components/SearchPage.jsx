@@ -49,7 +49,7 @@ const SearchPage = () => {
       setError('Failed to navigate to the editor.');
     }
   };
-
+  // console.log(images)
   return (
     <div className="container mx-auto py-4">
       <div className='w-full p-5'>
@@ -79,7 +79,7 @@ const SearchPage = () => {
         {loading ? (
           <p>Please wait Loading...</p>
         ) : (
-          <div className="container grid grid-cols-4 gap-4">
+          <div className="container grid grid-cols-2 md:grid-cols-4 gap-4">
             {images.map((image) => (
               <div key={image.id} className="relative">
                 <img src={image.urls.small} alt={image.alt_description} />
